@@ -4,10 +4,7 @@ require 'rails/test_help'
 require "minitest/reporters"
 Minitest::Reporters.use!
 
-class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
-
+module LoginHelper
   # テストユーザーがログイン中の場合にtrueを返す
   def is_logged_in?
     !session[:user_id].nil?
@@ -15,8 +12,15 @@ class ActiveSupport::TestCase
 
   # テストユーザーとしてログインする
   def log_in_as(user)
-   session[:user_id] = user.id
+    session[:user_id] = user.id
   end
+end  
+
+class ActiveSupport::TestCase
+  include LoginHelper
+  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  fixtures :all
+
 end
 
 class ActionDispatch::IntegrationTest
